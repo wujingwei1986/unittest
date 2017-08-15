@@ -12,3 +12,10 @@ sender = conf.get("email","sender")
 passwd = conf.get("email","passwd")
 receiver = conf.get("email","receiver")
 port = conf.get("email","port")
+
+
+db_host = conf.get("DataBase", "host")
+db_port = conf.get("DataBase", "port")
+db_name = conf.get("DataBase", "db_name")
+db_user = conf.get("DataBase", "user")
+db_password = conf.get("DataBase", "password")

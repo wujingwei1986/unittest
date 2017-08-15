@@ -1,11 +1,14 @@
 # -*- coding: GB18030 -*-
-import os,time
+import os,time,sys
 import unittest
 import HTMLTestRunner
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from email.header import Header
+from db_fixture import test_data
+from common.mysql_pub import db_MySQL
+
 
 #获取run_main的路径
 curr_path = os.path.dirname(os.path.realpath(__file__))
@@ -80,16 +83,25 @@ def send_email(sender,passwd,receiver,smtpserver,report_file):
         print(u"邮件发送成功！")
     '''
 if __name__ == '__main__':
-    all_case = add_case() #添加用例
-    run_case(all_case)
-    report_path = os.path.join(curr_path,"reports")
-    report_file = get_report_file(report_path)
-
     from config import read_cfg
     smtp_server = read_cfg.smtp_server
     sender = read_cfg.sender
     passwd = read_cfg.passwd
     receiver = read_cfg.receiver
     port = read_cfg.port
+
+    db_host = read_cfg.db_host
+    db_port = read_cfg.db_port
+    db_name = read_cfg.db_name
+    db_user = read_cfg.db_user
+    db_password = read_cfg.db_password
+
+    db_instance = db_MySQL(db_host,db_user,db_password,db_name)
+    db_instance.init_data(test_data.datas) #初始化数据库
+    all_case = add_case() #添加用例
+    run_case(all_case)
+    report_path = os.path.join(curr_path,"reports")
+    report_file = get_report_file(report_path)
+
 
     send_email(sender,passwd,receiver,smtp_server,report_file)

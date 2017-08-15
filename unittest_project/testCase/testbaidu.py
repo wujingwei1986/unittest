@@ -2,7 +2,8 @@
 import time,os,sys
 import unittest
 from selenium import webdriver
-from common.logger import Log
+sys.path.append('../common')
+from logger import Log
 
 class testBaidu(unittest.TestCase):
     log = Log()
